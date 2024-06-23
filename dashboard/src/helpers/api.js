@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import { ReactNode } from 'react';
 import { handleLogout } from '@/store/reducers/auth';
 
 const axiosConfig = axios.create({
@@ -12,7 +11,7 @@ const axiosConfig = axios.create({
   }
 });
 
-const AxiosInterceptor: React.FC<{ children: ReactNode }> = ({ children }) => {
+const AxiosInterceptor = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
