@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegistrationRequest;
+use App\Http\Resources\UserResource;
 use App\Lib\Responses;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ class AuthController extends Controller
         $token = $user->createToken("client")->plainTextToken;
 
         return $this->response(Responses::SUCCESS, [
+            'user' => new UserResource($user),
             'token' => $token
         ]);
     }
