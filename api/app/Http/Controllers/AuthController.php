@@ -57,6 +57,10 @@ class AuthController extends Controller
             return $this->response(Responses::ERROR['email_already_exists']);
         }
 
+        if (!Hash::check($password, $user->password)) {
+            return $this->response(Responses::ERROR['wrong_credentials']);
+        }
+
         $token = $user->createToken("client")->plainTextToken;
 
         return $this->response(Responses::SUCCESS, [
