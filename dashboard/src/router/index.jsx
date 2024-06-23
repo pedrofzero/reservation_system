@@ -7,6 +7,11 @@ import Register from '@/pages/register'
 import AuthLayout from '@/components/layout/AuthLayout'
 import DashboardLayout from '@/components/layout/DashboardLayout'
 
+import Home from '@/pages/home'
+import Products from '@/pages/products'
+import Profile from '@/pages/profile'
+import Settings from '@/pages/settings'
+
 const Router = () => {
     return (
         <BrowserRouter>
@@ -17,7 +22,10 @@ const Router = () => {
 
                     <Route path="/" element={<AuthLayout />}>
                         <Route path="/" element={<DashboardLayout />}>
-                            <Route path="/123" element={<p>123</p>} />
+                            <Route index element={<Home />} />
+                            <Route path="/products" element={<Products />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/settings" element={<Settings />} />
                         </Route>
                     </Route>
                 </Routes>
