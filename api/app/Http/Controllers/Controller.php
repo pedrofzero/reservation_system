@@ -7,13 +7,13 @@ abstract class Controller
     protected function response(array $response, $data = null, array $error = null)
     {
         if ($data === null && $error === null) {
-            return [$response];
+            return $response;
         }
 
         if ($data !== null) {
-            return [array_merge($response, ['Data' => $data])];
+            return array_merge($response, ['Data' => $data]);
         } else {
-            return [array_merge($response, ['Error' => $error])];
+            return array_merge($response, ['Error' => $error]);
         }
     }
 }
