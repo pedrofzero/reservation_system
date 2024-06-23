@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, Reducer } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '@/helpers/api'
 import { toast } from "react-toastify";
 import { t } from 'i18next';
@@ -7,7 +7,7 @@ import { t } from 'i18next';
 export const handleLogin = createAsyncThunk('auth/handleLogin', async (params) => {
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const response = await api.post('auth/client/login', params, config)
+    const response = await api.post('auth/login', params, config)
 
     if (!response?.data?.Result) {
         return toast.error(t(`api.errors.${response?.data?.Code}`));
@@ -60,5 +60,5 @@ export const authSlice = createSlice({
     }
 });
 
-export default authSlice.reducer as Reducer;
+export default authSlice.reducer;
 
