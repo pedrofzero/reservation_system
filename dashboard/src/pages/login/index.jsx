@@ -1,9 +1,49 @@
 import { Button } from "@/shadcn/ui/button"
 import { Input } from "@/shadcn/ui/input"
 import { Label } from "@/shadcn/ui/label"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Form } from "@/shadcn/ui/form"
+import TextInput from "@/components/ui/TextInput"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { handleLogin } from "@/store/reducers/auth"
+import { toast } from "sonner"
+
 
 const Login = () => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const loginSchema = z.object({
+        email: z.string().email(),
+        password: z.string().min(8, { message: "Error" })
+    })
+
+    const form = useForm({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "",
+            password: ""
+        }
+    })
+    
+    const onSubmit = values => {
+        dispatch(handleLogin(values))
+        .then(res => {
+            if (res.payload.Result) {
+                toast.success('Sucess, redirecting to dashboard..');
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
+            }
+        });
+    }
+
     return (
         <div className="min-h-screen h-full w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
             <div className="flex items-center justify-center py-12">
@@ -14,35 +54,33 @@ const Login = () => {
                             Enter your email below to login to your account
                         </p>
                     </div>
-                    <div className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="m@example.com"
-                                required
-                            />
-                        </div>
-                        <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                <Link
-                                    to="/forgot-password"
-                                    className="ml-auto inline-block text-sm underline"
-                                >
-                                    Forgot your password?
-                                </Link>
+                    <Form {...form}>
+                        <div className="grid gap-4">
+                            <div className="grid gap-2">
+                                <TextInput
+                                    form={form}
+                                    name="email"
+                                    label="email"
+                                    placeholder="email"
+                                />
                             </div>
-                            <Input id="password" type="password" required />
+                            <div className="grid gap-2">
+                                <TextInput
+                                    form={form}
+                                    type="password"
+                                    name="password"
+                                    label="password"
+                                    placeholder="password"
+                                />
+                            </div>
+                            <Button type="submit" className="w-full" onClick={form.handleSubmit(onSubmit)}>
+                                Login
+                            </Button>
+                            {/* <Button variant="outline" className="w-full">
+                                Login with Google
+                            </Button> */}
                         </div>
-                        <Button type="submit" className="w-full">
-                            Login
-                        </Button>
-                        <Button variant="outline" className="w-full">
-                            Login with Google
-                        </Button>
-                    </div>
+                    </Form>
                     <div className="mt-4 text-center text-sm">
                         Don&apos;t have an account?{" "}
                         <Link to="#" className="underline">
