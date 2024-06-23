@@ -8,25 +8,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/shadcn/ui/form";
-import { Controller, FieldValues, FieldPath, useFormContext } from "react-hook-form";
 
-interface TextInputProps<TFieldValues extends FieldValues> {
-  name: FieldPath<TFieldValues>;
-  form: any; // You might want to replace 'any' with a more specific type if you have one
-  label: string;
-  placeholder: string;
-  type?: string; // Making type optional with '?'
-  description?: string; // Making description optional with '?'
-}
-
-const TextInput = <TFieldValues extends FieldValues>({
-  name,
-  form,
-  label,
-  placeholder,
-  type = "text",
-  description,
-}: TextInputProps<TFieldValues>) => {
+const TextInput = ({ name, form, label, placeholder, type = "text", description }) => {
   return (
     <FormField
       control={form.control}
