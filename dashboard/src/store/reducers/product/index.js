@@ -14,6 +14,29 @@ export const fetchUserProducts = createAsyncThunk('product/list', async (params)
     return response?.data
 })
 
+export const fetchProductDetails = createAsyncThunk('product/details', async (params) => {
+    const response = await api.get(`product/details/${params}`)
+
+    if (!response?.data?.Result) {
+        return toast.error(t(`api.errors.${response?.data?.Code}`));
+    }
+
+    return response?.data
+})
+
+export const createProduct = createAsyncThunk('product/create', async (params, { dispatch }) => {
+    const config = { headers: { "Content-Type": "multipart/form-data" } }
+    const response = await api.post(`product/create`, params, config)
+
+    if (!response?.data?.Result) {
+        return toast.error(t(`api.errors.${response?.data?.Code}`));
+    } else {
+        dispatch(fetchUserProducts())
+    }
+
+    return response?.data
+})
+
 const initialState = {
     list: false,
     selected: false,
@@ -26,6 +49,9 @@ export const productSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(fetchUserProducts.fulfilled, (state, action) => {
             state.list = action?.payload?.Data;
+        })
+        builder.addCase(fetchProductDetails.fulfilled, (state, action) => {
+            state.selected = action?.payload?.Data;
         })
     }
 });
