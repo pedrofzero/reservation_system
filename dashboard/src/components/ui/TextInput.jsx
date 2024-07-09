@@ -1,6 +1,5 @@
 import { Input } from "@/shadcn/ui/input";
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -28,4 +27,32 @@ const TextInput = ({ name, form, label, placeholder, type = "text", description 
   );
 };
 
+const FileInput = ({ name, form, label, placeholder }) => {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => {
+        return (
+          <FormItem>
+            <FormLabel>{label}</FormLabel>
+            <FormControl>
+              <Input
+              type="file"
+              className="mt-1"
+              {...form.register(name)}
+              onChange={(event) => {
+                field.onChange(event.target?.files?.[0] ?? undefined);
+              }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
+    />
+  )
+}
+
+export { FileInput };
 export default TextInput;
