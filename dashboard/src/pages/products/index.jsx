@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProducts } from "@/store/reducers/product";
 import ProductsTable from "@/components/products/ProductsTable";
 import { Button } from "@/shadcn/ui/button";
+import CreateProductModal from "@/components/products/modals/CreateProductModal";
 
 const Products = () => {
 
@@ -25,15 +26,19 @@ const Products = () => {
 
     return (
         <div className="space-y-4 p-8 pt-6">
-            <div className="flex space-x-5">
-                <Title title="Products" />
-                <Button onClick={() => showMethod === 'card' ? setShowMethod('table') : setShowMethod('card')}>Toggle view</Button>
+            <div className="flex justify-between">
+                <div className="flex gap-5">
+                    <Title title="Products" />
+                    <Button onClick={() => showMethod === 'card' ? setShowMethod('table') : setShowMethod('card')}>Toggle view</Button>
+                </div>
+                <CreateProductModal />       
+                
             </div>
 
             <div className="!mt-8">
                 {products && products.length > 0 &&
                     showMethod === 'card' ?
-                    <div className="grid grid-cols-2 gap-5 md:grid-cols-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                         {products.map((product, index) => (
                             <ProductsCard key={index} product={product} />
                         ))}
