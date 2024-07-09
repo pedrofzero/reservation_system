@@ -14,7 +14,17 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => '/product'], function () {
         Route::get('/list', [ProductController::class, 'index']);
-    })->middleware(['abilities:test']);
+        Route::get('/details/{id}', [ProductController::class, 'show']);
+        Route::post('/create', [ProductController::class, 'store']);
+        Route::post('/edit/{id}', [ProductController::class, 'update']);
+        Route::delete('/delete/{id}', [ProductController::class, 'destroy']);
+    },
+    // Route::group(['prefix' => '/product'], function () {
+    //     Route::get('/list', [ProductController::class, 'index']);
+    //     Route::get('/list', [ProductController::class, 'index']);
+    // }
+
+    )->middleware(['abilities:test']);
 });
 
 // Route::get('/user', function (Request $request) {
